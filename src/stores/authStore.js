@@ -1,17 +1,16 @@
-import { ref } from "vue";
 import { defineStore } from "pinia";
 
-export const useAuthStore = defineStore("auth", () => {
-  const state = {
-    user: ref(null),
-  };
-
-  function setUser(session) {
-    state.user.value = session ? session.user : null;
-  }
-
-  return {
-    ...state,
-    setUser,
-  };
+export const useAuthStore = defineStore("auth", {
+  state: () => ({
+    user: null,
+  }),
+  actions: {
+    setUser(session) {
+      if (session && session.user) {
+        this.user = session.user;
+      } else {
+        this.user = null;
+      }
+    },
+  },
 });

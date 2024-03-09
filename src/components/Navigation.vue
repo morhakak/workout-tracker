@@ -11,21 +11,26 @@
         <router-link class="cursor-pointer" :to="{ name: 'Home' }"
           >Home</router-link
         >
-        <router-link class="cursor-pointer" :to="{ name: '' }"
+        <router-link v-if="user" class="cursor-pointer" :to="{ name: 'Create' }"
           >Create</router-link
         >
-        <router-link class="cursor-pointer" :to="{ name: 'Login' }"
+        <router-link v-if="!user" class="cursor-pointer" :to="{ name: 'Login' }"
           >Login</router-link
         >
-        <li @click="logout" class="cursor-pointer">Logout</li>
+        <li v-if="user" @click="logout" class="cursor-pointer">Logout</li>
       </ul>
     </nav>
   </header>
 </template>
 
 <script setup>
+import { useAuthStore } from "../stores/authStore.js";
+import { computed } from "vue";
 import { supabase } from "../supabase/init.js";
 import { useRouter } from "vue-router";
+
+const store = useAuthStore();
+const user = computed(() => store.user);
 
 const router = useRouter();
 
